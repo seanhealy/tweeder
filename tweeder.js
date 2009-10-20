@@ -1,5 +1,20 @@
+
+StringDetector = Class.create({
+	source: null,
+	detected: null,
+	detections: [],
+	
+  initialize: function() {
+    
+  },
+
+  speak: function() {
+    alert(this.name + " says: " + this.sound + "!");
+  }
+});
+
 Object.extend(String.prototype, {
-	addBob: function() {
+	detect: function() {
 		return this + 'bob';
 	}
 });
@@ -34,7 +49,7 @@ document.observe("dom:loaded", function() {
 			
 			data.results.each(function(result) {
 				var aTweet = new Element('li');
-				var tweetTextDiv = new Element('div').update(result.text.addBob());
+				var tweetTextDiv = new Element('div').update(result.text);
 				var tweetImage = new Element('img', { src: result.profile_image_url });
 				var tweetArrow = new Element('div');
 				
