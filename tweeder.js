@@ -14,10 +14,13 @@ StringDetector = Class.create({
 });
 
 Object.extend(String.prototype, {
-	detect: function() {
-		return this + 'bob';
+	activateDetectors: function() {
+		return this;
 	}
 });
+
+var lastTweetId = 0;
+var pollRate = 10;
 
 document.observe("dom:loaded", function() {
 	$$('div[data-tweeder]').each(function(tweeder, index) {
@@ -25,18 +28,17 @@ document.observe("dom:loaded", function() {
 		
 		var queryString = '';
 		if(config.query.fromUser)
-			queryString += '+from:' + config.query.fromUser;
+			queryString += 'from:' + config.query.fromUser + '+';
 		
 		if(config.query.hashtags)
 			config.query.hashtags.each(function(hashtag) {
 				if(hashtag.startsWith('#'))
-					queryString += '+' + hashtag;
+					queryString += hashtag + '+';
 				else
-					queryString += '+#' + hashtag;
+					queryString += '#' + hashtag + '+';
 			});
-			
-		var queryURL = 'http://search.twitter.com/search.json?q=' + escape(queryString) + '&callback=' + 'tweederCallback_' + index;
-		//tweeder.update(queryString + '<br />' + queryURL);
+		
+		queryString = queryString.gsub(/\+$/, '');
 		
 		var tweederList = new Element('ul');
 		tweeder.insert(tweederList);
@@ -47,22 +49,63 @@ document.observe("dom:loaded", function() {
 				return false;
 			}
 			
-			data.results.each(function(result) {
-				var aTweet = new Element('li');
-				var tweetTextDiv = new Element('div').update(result.text);
-				var tweetImage = new Element('img', { src: result.profile_image_url });
-				var tweetArrow = new Element('div');
-				
-				tweederList.insert(aTweet);
-				aTweet.insert(tweetImage);
-				aTweet.insert(tweetTextDiv);
-				tweetTextDiv.insert(tweetArrow);
+			var month = new Array(12);
+			month[0]  = "January";
+			month[1]  = "February";
+			month[2]  = "March";
+			month[3]  = "April";
+			month[4]  = "May";
+			month[5]  = "June";
+			month[6]  = "July";
+			month[7]  = "August";
+			month[8]  = "September";
+			month[9]  = "October";
+			month[10] = "November";
+			month[11] = "December";
+			
+			var currentMaxId = lastTweetId;
+			
+			data.results.reverse().each(function(result, index) {
+				if (result.id > lastTweetId) {
+					var date = new Date(result.created_at);
+					
+					var tweetDiv = new Element('li').hide();
+					var tweetUsername = new Element('a', { href: '#', 'class': 'username' }).update(result.from_user);
+					var tweetDate = new Element('div', { 'class': 'date' }).update(month[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear() + ' at ' + (date.getHours()+1)%12 + ':' + date.getMinutes() + ' ' + ((date.getHours>11)?'am':'pm') );
+					var tweetText = new Element('div').update(result.text.activateDetectors());
+					var tweetImage = new Element('img', { src: result.profile_image_url});
+					var tweetArrow = new Element('div', { 'class': 'arrow' });
+					
+					tweederList.insert({top: tweetDiv});
+					tweetDiv.insert(tweetImage);
+					tweetDiv.insert(tweetText);
+					tweetText.insert(tweetUsername);
+					tweetText.insert(tweetDate);
+					tweetText.insert(tweetArrow);
+					
+					tweetDiv.appear({ duration: 0.6, delay: index*((pollRate+2)/Math.max(data.results.length, 1)) });
+					
+					currentMaxId = Math.max(result.id, currentMaxId);
+				}
 			});
+			
+			lastTweetId = currentMaxId;
 		};
 		
-		// $(document.body).insert(new Element('script', { 'type': 'text/javascript', 'src': queryURL })); //TODO: Put this back in so it will actually work.
+/*
+		new PeriodicalExecuter(function(periodicalExecuter) {
+			var queryURL;
+//			if (lastTweetId) 
+//				queryURL = 'http://search.twitter.com/search.json?q=' + escape(queryString) + '&callback=' + 'tweederCallback_' + index + '&since_id=' + lastTweetId;
+//			else
+			queryURL = 'http://search.twitter.com/search.json?q=' + escape(queryString) + '&callback=' + 'tweederCallback_' + index + '&cachekill=' + new Date().getTime();
+				
+		  $(document.body).insert(new Element('script', { 'type': 'text/javascript', 'src': queryURL })); //TODO: Put this back in so it will actually work.
+		}, pollRate);
+*/
 		
 		// This is a sample call of a twitter result set. Its existance is not long for this world.
+
 		window['tweederCallback_' + index]({
 	   "results":[
 	      {
@@ -82,7 +125,7 @@ document.observe("dom:loaded", function() {
 	         "from_user":"seanhealy",
 	         "to_user_id":null,
 	         "text":"Got some new gloves and a goofy hat. #utils +42",
-	         "id":4689032021,
+	         "id":4689032020,
 	         "from_user_id":4485910,
 	         "iso_language_code":"en",
 	         "source":"&lt;a href=&quot;http://www.atebits.com/&quot; rel=&quot;nofollow&quot;&gt;Tweetie&lt;/a&gt;"
@@ -103,7 +146,7 @@ document.observe("dom:loaded", function() {
 	         "created_at":"Wed, 30 Sep 2009 23:25:55 +0000",
 	         "from_user":"seanhealy",
 	         "to_user_id":null,
-	         "text":"Slash http://utils.me is now sporting fixed math. #utils +100 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+	         "text":"Slash http://utils.me is now sporting fixed math. #utils +100 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tmpor",
 	         "id":4510259404,
 	         "from_user_id":4485910,
 	         "iso_language_code":"en",
@@ -140,5 +183,6 @@ document.observe("dom:loaded", function() {
 	   "completed_in":2.83447,
 	   "query":"+from%3Aseanhealy+%23utils"
 		});
+
 	});
 });
