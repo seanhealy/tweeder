@@ -70,7 +70,6 @@ document.observe("dom:loaded", function() {
 					var date = new Date(result.created_at);
 					
 					var tweetDiv = new Element('li').hide();
-					
 					var tweetUsername = new Element('a', { href: '#', 'class': 'username' }).update(result.from_user);
 					var tweetDate = new Element('div', { 'class': 'date' }).update(month[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear() + ' at ' + (date.getHours()+1)%12 + ':' + date.getMinutes() + ' ' + ((date.getHours>11)?'am':'pm') );
 					var tweetText = new Element('div').update(result.text.activateDetectors());

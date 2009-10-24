@@ -13,6 +13,8 @@ div[data-tweeder] { }
 div[data-tweeder] > ul {
 	margin: 0px;
 	padding: 0px;
+	
+	font-size: 12px;
 }
 
 div[data-tweeder] > ul > li {
