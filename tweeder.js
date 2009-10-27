@@ -57,7 +57,7 @@ document.observe("dom:loaded", function(event) {
 			var postCommentLabel = new Element('div', { 'class': 'post_comment_label' }).update('New Comment');
 			var charactersRemaining = new Element('div', { 'class': 'characters_remaining' }).update(140);
 			var postCommentButton = new Element('a', { href: '#', 'class': 'post_comment_button' }).update('Post');
-			var tweetImage = new Element('img', { src: 'blank_profile_image.png' });
+			var tweetImage = new Element('div', { 'class': 'profile_image' });
 			var tweetArrow = new Element('div', { 'class': 'arrow' });
 			
 			tweederList.insert(tweederInputItem);
@@ -141,11 +141,12 @@ document.observe("dom:loaded", function(event) {
 					var tweetUsername = new Element('a', { href: '#', 'class': 'username' }).update(result.from_user);
 					var tweetDate = new Element('div', { 'class': 'date' }).update(month[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear() + ' at ' + (date.getHours()+1)%12 + ':' + date.getMinutes() + ' ' + ((date.getHours>11)?'am':'pm') );
 					var tweetText = new Element('div', { 'class': 'tweet_text' }).update(result.text.activateDetectors());
-					var tweetImage = new Element('img', { src: result.profile_image_url});
+					var tweetImage = new Element('div', { 'class': 'profile_image' });
 					var tweetArrow = new Element('div', { 'class': 'arrow' });
 					
 					newTweetLoaderWrapper.insert({after: tweetItem});
 					tweetItem.insert(tweetImage);
+					tweetImage.setStyle({ 'background-image': 'url(' + result.profile_image_url + ')' });
 					tweetItem.insert(tweetArrow);
 					tweetItem.insert(tweetText);
 					tweetItem.insert(tweetUsername);

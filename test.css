@@ -19,7 +19,7 @@ div[data-tweeder] > a.activate_twitter {
 	
 	padding-left: 20px;
 	
-	margin-bottom: 10px;
+	margin-bottom: 6px;
 	
 	padding: 2px;
 	padding-left: 21px;
@@ -57,10 +57,10 @@ div[data-tweeder] > ul > li {
 	display: block;
 	position: relative;
 	
-	margin-top: 10px;
+	margin-top: 6px;
 	
 	min-height: 48px;
-	padding-left: 58px;
+	padding-left: 60px;
 	
 	background-position: top left;
 	background-repeat: no-repeat;
@@ -70,16 +70,19 @@ div[data-tweeder] > ul > li:first-child {
 }
 
 /* Profile Image */
-div[data-tweeder] > ul > li > img {
+div[data-tweeder] > ul > li > div.profile_image {
 	position: absolute;
 	top: 0px;
 	left: 0px;
 	width: 48px;
 	height: 48px;
 	
+	border: 1px solid rgba(0,0,0,0.4);
 	-webkit-border-radius: 5px;
 	
 	-webkit-box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
+	
+	background-image: url(blank_profile_image.png);
 }
 
 /* Tweet Text Div */
@@ -215,7 +218,7 @@ div[data-tweeder] > ul > li > a.post_comment_button:active {
 div[data-tweeder] > ul > li > div.arrow {
 	position: absolute;
 	top: 0px;
-	left: 51px;
+	left: 53px;
 	width: 0px;
 	height: 0px;
 	
