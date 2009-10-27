@@ -2,19 +2,55 @@ body {
 	font-family: Helvetica, Verdana, Arial, sans-serif;
 	font-size: 12px;
 	
-	width: 400px;
+/* 	width: 400px; */
 	
 	background-image: url(grit-lighter.png);
 	background-attachment: fixed;
 }
 
-div[data-tweeder] { }
+div[data-tweeder] {
+	color: #fff;
+	font-size: 12px;
+}
+
+div[data-tweeder] > a.activate_twitter {
+	display: block;
+	float: right;
+	
+	padding-left: 20px;
+	
+	margin-bottom: 10px;
+	
+	padding: 2px;
+	padding-left: 21px;
+	padding-right: 5px;
+	
+	color: inherit;
+	font-size: 14px;
+	font-weight: bold;
+	text-decoration: none;
+	text-shadow: 0px -1px 0px rgba(0,0,0,0.7);
+	
+	border: solid 1px rgba(0,0,0,0.9);
+	-webkit-border-radius: 5px;
+	
+	background-color: rgba(0,0,0,0.6);
+	background-image: url(twitter_icon.png), url(link_button.png);
+	background-position: 3px center, left center;
+	background-repeat: no-repeat, repeat-x;
+}
+div[data-tweeder] > a.activate_twitter:hover {
+	background-color: rgba(0,0,0,0.5);
+}
+div[data-tweeder] > a.activate_twitter:active {
+	text-shadow: 0px 1px 0px rgba(0,0,0,0.7);
+	background-image: url(twitter_icon.png), url(link_button-active.png);
+}
 
 div[data-tweeder] > ul {
 	margin: 0px;
 	padding: 0px;
-	
-	font-size: 12px;
+	clear: both;
 }
 
 div[data-tweeder] > ul > li {
@@ -47,29 +83,73 @@ div[data-tweeder] > ul > li > img {
 }
 
 /* Tweet Text Div */
-div[data-tweeder] > ul > li > div {
+div[data-tweeder] > ul > li > div.tweet_text,
+div[data-tweeder] > ul > li > div.tweet_text_wrapper {
+	display: block;
 	position: relative;
+	width: auto;
+	min-height: 18px;
 	
 	padding: 5px;
 	padding-left: 7px;
 	padding-right: 7px;
-	padding-top: 25px;
-	min-height: 18px;
+	padding-top: 27px;
 	
-	color: #fff;
-	
+	border: none;
 	-webkit-border-radius: 5px;
 	-webkit-border-top-left-radius: 0px;
 	
 	background-color: rgba(0,0,0,0.7);
 }
+div[data-tweeder] > ul > li > div.tweet_text_wrapper > textarea.tweet_text {
+	display: block;
+	width: 100%;
+	height: 18px;
+	
+	padding: 0px;
+	
+	color: inherit;
+	font: inherit;
+	
+	overflow: hidden;
+	
+	outline: none;
+	
+	border: none;
+	background-color: transparent;
+}
+
+div[data-tweeder] > ul > li.new_tweet_loader_wrapper {
+	min-height: 0px;
+}
+
+div[data-tweeder] > ul > li.new_tweet_loader_wrapper div {
+	display: block;
+	position: relative;
+	width: auto;
+	min-height: px;
+	height: auto;
+	
+	padding: 5px;
+	padding-left: 25px;
+	padding-right: 7px;
+	
+	border: none;
+	-webkit-border-radius: 5px;
+	
+	background-color: rgba(0,0,0,0.7);
+	background-image: url(ajax-loader.gif);
+	background-position: 5px center;
+	background-repeat: no-repeat;
+}
 
 /* From User */
-div[data-tweeder] > ul > li > div > a.username {
+div[data-tweeder] > ul > li > a.username,
+div[data-tweeder] > ul > li > div.post_comment_label {
 	position: absolute;
 	height: 16px;
 	top: 5px;
-	left: 7px;
+	left: 65px;
 	
 	padding-left: 20px;
 	
@@ -82,12 +162,11 @@ div[data-tweeder] > ul > li > div > a.username {
 	background-position: left center;
 	background-repeat: no-repeat;
 }
-div[data-tweeder] > ul > li > div > a.username:hover {
+div[data-tweeder] > ul > li > a.username:hover {
 	text-decoration: underline;
 }
 
-/* From User */
-div[data-tweeder] > ul > li > div > div.date {
+div[data-tweeder] > ul > li > div.date {
 	position: absolute;
 	top: 5px;
 	right: 7px;
@@ -95,11 +174,48 @@ div[data-tweeder] > ul > li > div > div.date {
 	font-size: 10px;
 }
 
+div[data-tweeder] > ul > li > div.characters_remaining {
+	position: absolute;
+	top: 5px;
+	right: 66px;
+}
+
+div[data-tweeder] > ul > li > a.post_comment_button {
+	display: block;
+	position: absolute;
+	top: 5px;
+	right: 7px;
+	
+	padding: 2px;
+	padding-left: 21px;
+	padding-right: 5px;
+	
+	color: inherit;
+	font-weight: bold;
+	text-decoration: none;
+	text-shadow: 0px -1px 0px rgba(0,0,0,0.7);
+	
+	border: solid 1px rgba(255,255,255,0.8);
+	-webkit-border-radius: 5px;
+	
+	background-color: rgba(255,255,255,0.1);
+	background-image: url(post_icon.png), url(link_button.png);
+	background-position: 3px center, left center;
+	background-repeat: no-repeat, repeat-x;
+}
+div[data-tweeder] > ul > li > a.post_comment_button:hover {
+	background-color: rgba(255,255,255,0.2);
+}
+div[data-tweeder] > ul > li > a.post_comment_button:active {
+	text-shadow: 0px 1px 0px rgba(0,0,0,0.7);
+	background-image: url(post_icon.png), url(link_button-active.png);
+}
+
 /* Arrow */
-div[data-tweeder] > ul > li > div > div.arrow {
+div[data-tweeder] > ul > li > div.arrow {
 	position: absolute;
 	top: 0px;
-	left: -7px;
+	left: 51px;
 	width: 0px;
 	height: 0px;
 	
